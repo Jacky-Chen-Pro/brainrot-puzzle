@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom';
 
 interface Tile {
@@ -10,11 +10,9 @@ interface Tile {
 
 const GRID_SIZE = 3; // 3x3 拼图
 
-const PuzzleBoard = forwardRef((props, ref) => {
-  const [image, setImage] = useState<string | null>(null);
+const PuzzleBoard = forwardRef((_, ref) => {
   const [tiles, setTiles] = useState<Tile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isTiming, setIsTiming] = useState(false);
@@ -44,7 +42,6 @@ const PuzzleBoard = forwardRef((props, ref) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (ev) => {
-        setImage(ev.target?.result as string);
         // 切割图片并按顺序排列
         const img = new window.Image();
         img.src = ev.target?.result as string;
@@ -99,7 +96,6 @@ const PuzzleBoard = forwardRef((props, ref) => {
     setIsCompleted(false);
     setTimer(0);
     setIsTiming(true);
-    setImage(imgPath);
     const img = new window.Image();
     img.src = imgPath;
     img.onload = () => {
@@ -416,7 +412,7 @@ const PuzzleBoard = forwardRef((props, ref) => {
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
-                    border: dragIndex === idx ? '2px solid #1976d2' : '1px solid #ccc',
+                    border: draggingIdx === idx ? '2px solid #1976d2' : '1px solid #ccc',
                     boxSizing: 'border-box',
                     cursor: isCorrect ? 'default' : 'grab',
                     opacity: isDragging ? 0.3 : (isCorrect ? 0.7 : 1),

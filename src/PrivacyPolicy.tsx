@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PrivacyPolicy = () => (
   <main style={{ maxWidth: 700, margin: '48px auto', background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px #e3eaf2', padding: '40px 32px' }}>
     <h1 style={{ color: '#1976d2', fontWeight: 800, fontSize: 32, marginBottom: 18 }}>Privacy Policy</h1>
