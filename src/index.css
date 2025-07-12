@@ -97,6 +97,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -110,8 +115,42 @@ button:focus-visible {
   }
 }
 
-@media (max-width: 600px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.1rem; }
-  main { padding-top: 12px; }
+@media (max-width: 900px) {
+  html, body {
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    min-height: 0;
+  }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1rem; }
+  main { padding-top: 8px; }
+  .App {
+    max-width: 100vw !important;
+    padding: 4px 0 !important;
+  }
+  #puzzle-board {
+    width: 98vw !important;
+    height: 98vw !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100vw !important;
+    max-height: 100vw !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 12px #e3eaf2 !important;
+  }
+  button {
+    font-size: 1.1em;
+    padding: 0.7em 1.3em;
+    min-width: 80px;
+  }
+  ul, p, li {
+    font-size: 1em !important;
+  }
+  .info-section {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 18px 4vw !important;
+  }
 }

@@ -25,6 +25,8 @@ const PuzzleBoard = forwardRef((_, ref) => {
   const [mousePos, setMousePos] = useState<{x: number, y: number}>({x: 0, y: 0});
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  // 1. 获取拼图区实际宽度
+  const [boardSize, setBoardSize] = useState(360);
 
   // 内置图片数组
   const images = [
@@ -231,11 +233,70 @@ const PuzzleBoard = forwardRef((_, ref) => {
       setDraggingIdx(null);
       document.body.style.userSelect = '';
     };
+    // 2. touchmove时阻止默认滚动（只在拖拽时阻止）
+    const handleTouchMove = (e: TouchEvent) => {
+      if (draggingIdx !== null) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        setMousePos({ x: touch.clientX, y: touch.clientY });
+      }
+    };
+    const handleTouchEnd = (e: TouchEvent) => {
+      const boardRect = (document.querySelector('#puzzle-board') as HTMLElement)?.getBoundingClientRect();
+      if (!boardRect) {
+        setDraggingIdx(null);
+        document.body.style.userSelect = '';
+        return;
+      }
+      // 用changedTouches[0]，因为touchend时touches为空
+      const touch = e.changedTouches[0];
+      const x = touch.clientX - boardRect.left;
+      const y = touch.clientY - boardRect.top;
+      const col = Math.floor(x / (boardRect.width / GRID_SIZE));
+      const row = Math.floor(y / (boardRect.height / GRID_SIZE));
+      const dropIdx = row * GRID_SIZE + col;
+      if (
+        dropIdx >= 0 &&
+        dropIdx < tiles.length &&
+        dropIdx !== draggingIdx &&
+        tiles[dropIdx].id !== dropIdx
+      ) {
+        const newTiles = [...tiles];
+        [newTiles[draggingIdx], newTiles[dropIdx]] = [newTiles[dropIdx], newTiles[draggingIdx]];
+        setTiles(newTiles);
+        if (newTiles[dropIdx].id === dropIdx) {
+          setCheckMarks(prev => {
+            const arr = [...prev];
+            arr[dropIdx] = true;
+            return arr;
+          });
+          setTimeout(() => {
+            setCheckMarks(prev => {
+              const arr = [...prev];
+              arr[dropIdx] = false;
+              return arr;
+            });
+          }, 600);
+        }
+        if (checkCompleted(newTiles)) {
+          setIsCompleted(true);
+          setIsTiming(false);
+          setShowModal(true);
+        }
+      }
+      setDraggingIdx(null);
+      document.body.style.userSelect = '';
+    };
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+    // useEffect中监听touchmove时，设置{ passive: false }，以允许preventDefault
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [draggingIdx, tiles]);
 
@@ -360,21 +421,25 @@ const PuzzleBoard = forwardRef((_, ref) => {
       />
       {/* 只保留拼图内容和其它功能，不再渲染按钮 */}
       {/* 拼图区美化，修正溢出 */}
-      <div id="puzzle-board" style={{
-        position: 'relative',
-        margin: '24px auto',
-        width: 360,
-        height: 360,
-        background: '#fff',
-        borderRadius: 18,
-        boxShadow: '0 4px 32px rgba(25, 118, 210, 0.10)',
-        border: '2px solid #e3eaf2',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden', // 防止图片溢出
-        boxSizing: 'border-box',
-      }}>
+      <div id="puzzle-board"
+        onTouchMove={e => {
+          if (draggingIdx !== null) e.preventDefault();
+        }}
+        style={{
+          position: 'relative',
+          margin: '24px auto',
+          width: 360,
+          height: 360,
+          background: '#fff',
+          borderRadius: 18,
+          boxShadow: '0 4px 32px rgba(25, 118, 210, 0.10)',
+          border: '2px solid #e3eaf2',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden', // 防止图片溢出
+          boxSizing: 'border-box',
+        }}>
         <div style={{
           width: '100%',
           height: '100%',
@@ -401,6 +466,16 @@ const PuzzleBoard = forwardRef((_, ref) => {
                   const rect = (e.target as HTMLElement).getBoundingClientRect();
                   setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
                   setMousePos({ x: e.clientX, y: e.clientY });
+                  document.body.style.userSelect = 'none';
+                }}
+                onTouchStart={e => {
+                  if (isCorrect) return;
+                  e.preventDefault();
+                  setDraggingIdx(idx);
+                  const touch = e.touches[0];
+                  const rect = (e.target as HTMLElement).getBoundingClientRect();
+                  setDragOffset({ x: touch.clientX - rect.left, y: touch.clientY - rect.top });
+                  setMousePos({ x: touch.clientX, y: touch.clientY });
                   document.body.style.userSelect = 'none';
                 }}
               >
@@ -454,8 +529,8 @@ const PuzzleBoard = forwardRef((_, ref) => {
               position: 'fixed',
               left: mousePos.x - dragOffset.x,
               top: mousePos.y - dragOffset.y,
-              width: 360 / GRID_SIZE,
-              height: 360 / GRID_SIZE,
+              width: boardSize / GRID_SIZE,
+              height: boardSize / GRID_SIZE,
               pointerEvents: 'none',
               zIndex: 9999,
               boxShadow: '0 4px 16px rgba(0,0,0,0.2)',

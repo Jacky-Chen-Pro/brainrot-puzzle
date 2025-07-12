@@ -57,6 +57,7 @@ function App() {
             <main>
               <PuzzleBoard ref={puzzleRef} />
               <section
+                className="info-section"
                 style={{
                   background: '#fff',
                   borderRadius: 18,
@@ -64,7 +65,6 @@ function App() {
                   padding: '38px 32px',
                   margin: '32px auto 0 auto',
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
                   gap: 48,
                   alignItems: 'start',
                   maxWidth: 900,
