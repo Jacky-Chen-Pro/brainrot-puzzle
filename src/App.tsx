@@ -91,7 +91,6 @@ function App() {
                     <li>
                       <b style={{ fontWeight: 700 }}>More characters:</b> Each image in the game represents a unique Italian Brainrot character.
                       <div style={{ color: '#2e7d32', fontWeight: 700, fontSize: 15, margin: '8px 0 2px 0' }}>Learn More</div>
-                      <div style={{ margin: 0, color: '#444', fontSize: 15 }}>For more details, visit the <a href="https://italianbrainrot.miraheze.org/wiki/Main_Page" target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', textDecoration: 'underline', fontWeight: 600 }}>Italian Brainrot Wiki</a>.</div>
                     </li>
                   </ul>
                 </div>
