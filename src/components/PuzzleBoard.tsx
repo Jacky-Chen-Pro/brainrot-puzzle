@@ -30,12 +30,23 @@ const PuzzleBoard = forwardRef((_, ref) => {
   // const [boardSize, setBoardSize] = useState(360);
   const boardSize = 360;
 
-  // 内置图片数组
-  const images = [
-    '/puzzles/img1.webp',
-    '/puzzles/img2.webp',
-    '/puzzles/img3.webp',
-  ];
+  // 自动导入所有图片和音乐，并按编号排序一一对应
+  const imageModules = import.meta.glob('/public/puzzles/img*.webp', { eager: true, as: 'url' });
+  const musicModules = import.meta.glob('/public/music/bgm*.mp3', { eager: true, as: 'url' });
+
+  function extractNum(filename: string) {
+    const match = filename.match(/(img|bgm)(\d+)/);
+    return match ? parseInt(match[2], 10) : 0;
+  }
+
+  const images = Object.entries(imageModules)
+    .sort(([a], [b]) => extractNum(a) - extractNum(b))
+    .map(([, url]) => url as string);
+
+  const musicList = Object.entries(musicModules)
+    .sort(([a], [b]) => extractNum(a) - extractNum(b))
+    .map(([, url]) => url as string);
+
   // 随机初始索引
   const getRandomIndex = () => Math.floor(Math.random() * images.length);
   const [currentImgIndex, setCurrentImgIndex] = useState(getRandomIndex());
@@ -302,11 +313,6 @@ const PuzzleBoard = forwardRef((_, ref) => {
     };
   }, [draggingIdx, tiles]);
 
-  const musicList = [
-    '/music/bgm1.mp3',
-    '/music/bgm2.mp3',
-    '/music/bgm3.mp3',
-  ];
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // 切换图片时播放对应音乐（受 isMusicOn 控制）
