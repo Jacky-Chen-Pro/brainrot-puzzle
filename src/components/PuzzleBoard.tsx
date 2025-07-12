@@ -421,6 +421,10 @@ const PuzzleBoard = forwardRef((_, ref) => {
         style={{ display: 'none' }}
         onChange={handleImageUpload}
       />
+      {/* 计时器显示 */}
+      <div style={{ margin: '12px 0', fontSize: 20, color: '#1976d2', fontWeight: 700 }}>
+        Time: {timer}s
+      </div>
       {/* 只保留拼图内容和其它功能，不再渲染按钮 */}
       {/* 拼图区美化，修正溢出 */}
       <div id="puzzle-board"
