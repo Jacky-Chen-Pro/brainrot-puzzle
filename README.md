@@ -35,8 +35,8 @@ Each puzzle features a unique, AI-generated animal-object hybrid with its own st
 
 ## Links
 
-- **Live Demo:** [https://你的部署网址](https://你的部署网址)
-- **Source Code:** [GitHub](https://github.com/你的用户名/brainrot-puzzle)
+- **Live Demo:** [https://brainrotpuzzle.org](https://brainrotpuzzle.org)
+- **Source Code:** [GitHub](https://github.com/Jacky-Chen-Pro/brainrot-puzzle.git)
 - **About Italian Brainrot:** [Wiki](https://italianbrainrot.miraheze.org/wiki/Main_Page)
 
 ---
