@@ -26,7 +26,9 @@ const PuzzleBoard = forwardRef((_, ref) => {
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [showModal, setShowModal] = useState(false);
   // 1. 获取拼图区实际宽度
-  const [boardSize, setBoardSize] = useState(360);
+  // 移除未使用的setBoardSize
+  // const [boardSize, setBoardSize] = useState(360);
+  const boardSize = 360;
 
   // 内置图片数组
   const images = [
