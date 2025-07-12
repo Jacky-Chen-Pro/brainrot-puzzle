@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# Brainrot Puzzle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, meme-inspired online sliding puzzle game.  
+Enjoy Italian Brainrot characters, custom images, music, and a beautiful UI!
 
-Currently, two official plugins are available:
+[Play Now!](https://brainrotpuzzle.org) <!-- 替换为你的实际网址 -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🧩 Sliding puzzle with drag-and-drop
+- 🎵 Unique background music for each puzzle
+- 🖼️ Built-in meme images + custom image upload
+- ⏱️ Timer, completion animation, and next image
+- 🌐 English, SEO-optimized, responsive design
+- 🔒 No registration, privacy-friendly
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## About
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Brainrot Puzzle is inspired by the viral Italian Brainrot meme trend.  
+Each puzzle features a unique, AI-generated animal-object hybrid with its own story and music.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## How to Play
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Click **Shuffle Puzzle** to start.
+2. Drag and swap tiles to restore the original image.
+3. Enjoy the music and try to solve as fast as you can!
+
+---
+
+## Links
+
+- **Live Demo:** [https://你的部署网址](https://你的部署网址)
+- **Source Code:** [GitHub](https://github.com/你的用户名/brainrot-puzzle)
+- **About Italian Brainrot:** [Wiki](https://italianbrainrot.miraheze.org/wiki/Main_Page)
+
+---
+
+## License
+
+MIT
+
+---
+
+> Made with ❤️ by [Jacky Chen]
