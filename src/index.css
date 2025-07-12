@@ -1,0 +1,117 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f6f8fa 60%, #e3eaf2 100%);
+  color: #222;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 彩色泡泡背景 */
+body::before {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  left: 0; top: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, #ffd6e0 0 60px, transparent 70px),
+    radial-gradient(circle at 80% 10%, #b3e5fc 0 50px, transparent 60px),
+    radial-gradient(circle at 70% 80%, #ffe082 0 70px, transparent 80px),
+    radial-gradient(circle at 30% 70%, #c8e6c9 0 60px, transparent 70px),
+    radial-gradient(circle at 60% 50%, #f8bbd0 0 40px, transparent 50px);
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+
+.App {
+  position: relative;
+  z-index: 1;
+}
+
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* padding-top: 32px; */
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 0.2em;
+  letter-spacing: 1px;
+  color: #1976d2;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 2.2em;
+  color: #333;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.1rem; }
+  main { padding-top: 12px; }
+}
