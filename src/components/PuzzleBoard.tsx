@@ -10,7 +10,12 @@ interface Tile {
 
 const GRID_SIZE = 3; // 3x3 拼图
 
-const PuzzleBoard = forwardRef((_, ref) => {
+interface PuzzleBoardProps {
+  onImageIndexChange?: (index: number) => void;
+  selectedImageIndex?: number;
+}
+
+const PuzzleBoard = forwardRef<{ handleUpload: () => void; handleShuffle: () => void; getCurrentImageIndex: () => number }, PuzzleBoardProps>(({ onImageIndexChange, selectedImageIndex }, ref) => {
   const [tiles, setTiles] = useState<Tile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -49,7 +54,21 @@ const PuzzleBoard = forwardRef((_, ref) => {
 
   // 随机初始索引
   const getRandomIndex = () => Math.floor(Math.random() * images.length);
-  const [currentImgIndex, setCurrentImgIndex] = useState(getRandomIndex());
+  const [currentImgIndex, setCurrentImgIndex] = useState(selectedImageIndex ?? getRandomIndex());
+
+  // 当外部传入选择的图片索引时，更新当前图片
+  useEffect(() => {
+    if (selectedImageIndex !== undefined && selectedImageIndex !== currentImgIndex) {
+      setCurrentImgIndex(selectedImageIndex);
+    }
+  }, [selectedImageIndex, currentImgIndex]);
+
+  // 通知外部当前图片索引变化
+  useEffect(() => {
+    if (onImageIndexChange) {
+      onImageIndexChange(currentImgIndex);
+    }
+  }, [currentImgIndex, onImageIndexChange]);
 
   // 上传图片后，直接切割并按顺序排列
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,26 +80,32 @@ const PuzzleBoard = forwardRef((_, ref) => {
         const img = new window.Image();
         img.src = ev.target?.result as string;
         img.onload = () => {
-          const tileWidth = img.width / GRID_SIZE;
-          const tileHeight = img.height / GRID_SIZE;
+          // 确保使用正方形切割 - 取最小边作为基准
+          const minSize = Math.min(img.width, img.height);
+          const tileSize = minSize / GRID_SIZE;
+          
+          // 计算居中偏移量，确保从图片中心切割
+          const offsetX = (img.width - minSize) / 2;
+          const offsetY = (img.height - minSize) / 2;
+          
           const newTiles: Tile[] = [];
           for (let y = 0; y < GRID_SIZE; y++) {
             for (let x = 0; x < GRID_SIZE; x++) {
               const canvas = document.createElement('canvas');
-              canvas.width = tileWidth;
-              canvas.height = tileHeight;
+              canvas.width = tileSize;
+              canvas.height = tileSize;
               const ctx = canvas.getContext('2d');
               if (ctx) {
                 ctx.drawImage(
                   img,
-                  x * tileWidth,
-                  y * tileHeight,
-                  tileWidth,
-                  tileHeight,
+                  offsetX + x * tileSize,
+                  offsetY + y * tileSize,
+                  tileSize,
+                  tileSize,
                   0,
                   0,
-                  tileWidth,
-                  tileHeight
+                  tileSize,
+                  tileSize
                 );
                 newTiles.push({
                   id: y * GRID_SIZE + x,
@@ -114,26 +139,32 @@ const PuzzleBoard = forwardRef((_, ref) => {
     const img = new window.Image();
     img.src = imgPath;
     img.onload = () => {
-      const tileWidth = img.width / GRID_SIZE;
-      const tileHeight = img.height / GRID_SIZE;
+      // 确保使用正方形切割 - 取最小边作为基准
+      const minSize = Math.min(img.width, img.height);
+      const tileSize = minSize / GRID_SIZE;
+      
+      // 计算居中偏移量，确保从图片中心切割
+      const offsetX = (img.width - minSize) / 2;
+      const offsetY = (img.height - minSize) / 2;
+      
       const newTiles: Tile[] = [];
       for (let y = 0; y < GRID_SIZE; y++) {
         for (let x = 0; x < GRID_SIZE; x++) {
           const canvas = document.createElement('canvas');
-          canvas.width = tileWidth;
-          canvas.height = tileHeight;
+          canvas.width = tileSize;
+          canvas.height = tileSize;
           const ctx = canvas.getContext('2d');
           if (ctx) {
             ctx.drawImage(
               img,
-              x * tileWidth,
-              y * tileHeight,
-              tileWidth,
-              tileHeight,
+              offsetX + x * tileSize,
+              offsetY + y * tileSize,
+              tileSize,
+              tileSize,
               0,
               0,
-              tileWidth,
-              tileHeight
+              tileSize,
+              tileSize
             );
             newTiles.push({
               id: y * GRID_SIZE + x,
@@ -415,6 +446,9 @@ const PuzzleBoard = forwardRef((_, ref) => {
     },
     handleShuffle: () => {
       handleSliceImage();
+    },
+    getCurrentImageIndex: () => {
+      return currentImgIndex;
     }
   }));
 
@@ -464,6 +498,7 @@ const PuzzleBoard = forwardRef((_, ref) => {
           boxShadow: '0 2px 8px #e3eaf2',
           boxSizing: 'border-box',
           overflow: 'hidden',
+          aspectRatio: '1 / 1',
         }}>
           {tiles.map((tile, idx) => {
             const isCorrect = tile.id === idx;
@@ -471,7 +506,15 @@ const PuzzleBoard = forwardRef((_, ref) => {
             return (
               <div
                 key={tile.id}
-                style={{ position: 'relative', width: '100%', height: '100%' }}
+                style={{ 
+                  position: 'relative', 
+                  width: '100%', 
+                  height: '100%',
+                  aspectRatio: '1 / 1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
                 onMouseDown={e => {
                   if (isCorrect) return;
                   setDraggingIdx(idx);
@@ -494,11 +537,12 @@ const PuzzleBoard = forwardRef((_, ref) => {
                 {/* 拖拽时原位置半透明 */}
                 <img
                   src={tile.imgSrc}
-                  alt="tile"
+                  alt={`Puzzle tile ${tile.id + 1} of ${tiles.length}`}
                   style={{
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
+                    aspectRatio: '1 / 1',
                     border: draggingIdx === idx ? '2px solid #1976d2' : '1px solid #ccc',
                     boxSizing: 'border-box',
                     cursor: isCorrect ? 'default' : 'grab',
@@ -536,7 +580,7 @@ const PuzzleBoard = forwardRef((_, ref) => {
         {draggingIdx !== null && (
           <img
             src={tiles[draggingIdx].imgSrc}
-            alt="drag-preview"
+            alt={`Dragging puzzle tile ${tiles[draggingIdx].id + 1}`}
             style={{
               position: 'fixed',
               left: mousePos.x - dragOffset.x,
