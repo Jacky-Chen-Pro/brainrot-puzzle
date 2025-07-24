@@ -68,8 +68,8 @@
   ],
   "rewrites": [
     {
-      "source": "/games/(.*)",
-      "destination": "/games/$1"
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
