@@ -260,17 +260,59 @@ const GameDetail: React.FC = () => {
             Fullscreen ↗
           </a>
         </div>
-        <iframe
-          src={game.url}
-          style={{
-            width: '100%',
-            height: '600px',
-            border: 'none',
-            display: 'block'
-          }}
-          title={game.title}
-          loading="lazy"
-        />
+        <div style={{
+          width: '100%',
+          height: '600px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#f8faff',
+          border: '2px dashed #e3eaf2',
+          borderRadius: '12px'
+        }}>
+          <div style={{ textAlign: 'center', padding: '32px' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🔒</div>
+            <h3 style={{ 
+              color: '#1976d2', 
+              fontSize: '1.3rem', 
+              marginBottom: '12px',
+              margin: '0 0 12px 0'
+            }}>
+              Game Cannot be Embedded
+            </h3>
+            <p style={{ 
+              color: '#666', 
+              fontSize: '1rem', 
+              marginBottom: '24px',
+              maxWidth: '400px',
+              lineHeight: 1.6
+            }}>
+              Due to security restrictions, this game cannot be played within an iframe. 
+              Please click the button below to play in a new tab.
+            </p>
+            <a 
+              href={game.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-block',
+                background: '#1976d2',
+                color: '#fff',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: 600,
+                fontSize: '1rem',
+                transition: 'background 0.2s'
+              }}
+              onMouseOver={(e) => (e.currentTarget as HTMLAnchorElement).style.background = '#1565c0'}
+              onMouseOut={(e) => (e.currentTarget as HTMLAnchorElement).style.background = '#1976d2'}
+            >
+              🎮 Play Game in New Tab
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Game Information */}
