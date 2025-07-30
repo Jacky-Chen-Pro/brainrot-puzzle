@@ -15,14 +15,54 @@ const Games: React.FC = () => {
       difficulty: 'Easy to Medium'
     },
     {
-      id: 'merge',
-      title: 'Merge Fellas: Brainrot Merge',
-      description: 'Merge identical characters to create new ones in this addictive puzzle game',
-      image: 'https://raw.githubusercontent.com/sagarrudani302/BrainRotMerge/main/TemplateData/favicon.ico',
+      id: 'brainrot-2048',
+      title: '2048 Italian Brainrot',
+      description: 'Classic 2048 puzzle game with Italian Brainrot character tiles',
+      image: 'https://game.azgame.io/2048-italian-brainrot/25051605/logo_mini.png',
       type: 'external',
-      route: '/games/merge',
-      features: ['Merge Mechanics', 'Character Evolution', 'Score System', 'Unity WebGL'],
+      route: '/games/brainrot-2048',
+      features: ['2048 Mechanics', 'Brainrot Characters', 'High Score System', 'Smooth Animations'],
       difficulty: 'Medium'
+    },
+    {
+      id: 'brainrot-head-soccer',
+      title: 'Italian Brainrot Head Soccer',
+      description: 'Play head soccer with Italian Brainrot characters in this fun sports game',
+      image: 'https://www.gameflare.com/favicon.ico',
+      type: 'external',
+      route: '/games/brainrot-head-soccer',
+      features: ['Head Soccer Gameplay', 'Brainrot Characters', 'Sports Action', 'Multiplayer Fun'],
+      difficulty: 'Medium'
+    },
+    {
+      id: 'merge-brainrot',
+      title: 'Merge Brainrot',
+      description: 'Merge identical Italian Brainrot characters to create new evolved forms',
+      image: 'https://game.azgame.io/merge-brainrot/25060601/logo.png',
+      type: 'external',
+      route: '/games/merge-brainrot',
+      features: ['Merge Mechanics', 'Character Evolution', 'Strategic Gameplay', 'Score System'],
+      difficulty: 'Medium'
+    },
+    {
+      id: 'brainrot-mini-challenge',
+      title: 'Brainrot Mini Challenge',
+      description: 'Take on fun mini-challenges with Italian Brainrot characters',
+      image: 'https://www.twoplayergames.org/favicon.ico',
+      type: 'external',
+      route: '/games/brainrot-mini-challenge',
+      features: ['Mini Games', 'Challenge Mode', 'Quick Gameplay', 'Score Competition'],
+      difficulty: 'Medium'
+    },
+    {
+      id: 'italian-brainrot-quiz',
+      title: 'Italian Brainrot Quiz',
+      description: 'Test your knowledge about Italian Brainrot memes and characters',
+      image: 'https://www.gameflare.com/favicon.ico',
+      type: 'external',
+      route: '/games/italian-brainrot-quiz',
+      features: ['Quiz Questions', 'Brainrot Knowledge', 'Multiple Choice', 'Score Tracking'],
+      difficulty: 'Easy'
     }
   ];
 
@@ -31,6 +71,7 @@ const Games: React.FC = () => {
       maxWidth: 1000, 
       margin: '0 auto', 
       padding: '32px 16px',
+      paddingTop: '48px',
       background: '#fff',
       borderRadius: 18,
       boxShadow: '0 4px 24px #e3eaf2',

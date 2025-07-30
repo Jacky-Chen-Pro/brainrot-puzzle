@@ -9,6 +9,7 @@ import PrivacyPolicy from './PrivacyPolicy';
 import CookiePolicy from './CookiePolicy';
 import Contact from './Contact';
 import Blog from './Blog';
+import MobileNotice from './components/MobileNotice';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
@@ -18,9 +19,10 @@ function App() {
 
   return (
     <Router>
+      <MobileNotice />
       <Routes>
         <Route path="/" element={
-          <div className="App" style={{ maxWidth: 900, margin: '0 auto', padding: '16px 8px' }}>
+          <div className="App" style={{ maxWidth: 900, margin: '0 auto', padding: '16px 8px', paddingTop: '24px' }}>
             <header role="banner" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
               {/* 游戏中心入口 - 顶部位置 */}
               <section style={{
@@ -48,7 +50,7 @@ function App() {
                   opacity: 0.9,
                   margin: '0 auto 16px auto'
                 }}>
-                  Play sliding puzzles, merge games & more Italian Brainrot adventures!
+                  Play sliding puzzles, merge games, sports games, quiz challenges & more Italian Brainrot adventures!
                 </p>
                 <Link
                   to="/games"

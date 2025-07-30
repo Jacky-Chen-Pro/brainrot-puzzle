@@ -21,24 +21,104 @@ const GameDetail: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
 
   const gameData: Record<string, GameInfo> = {
-    'merge': {
-      id: 'merge',
-      title: 'Merge Fellas: Brainrot Merge',
-      description: 'Merge identical characters to create new ones in this addictive puzzle game',
-      longDescription: 'BrainrotMerge is an innovative merge puzzle game that combines the viral Italian Brainrot meme culture with addictive gameplay mechanics. Players merge identical characters to evolve them into new, more powerful forms while experiencing the surreal humor and creativity that defines the Brainrot phenomenon.',
-      image: 'https://raw.githubusercontent.com/sagarrudani302/BrainRotMerge/main/TemplateData/favicon.ico',
-      url: 'https://sagarrudani302.github.io/BrainRotMerge/',
-      features: ['Merge Mechanics', 'Character Evolution', 'Score System', 'Unity WebGL', 'Progressive Difficulty'],
+    'brainrot-2048': {
+      id: 'brainrot-2048',
+      title: '2048 Italian Brainrot',
+      description: 'Classic 2048 puzzle game with Italian Brainrot character tiles',
+      longDescription: '2048 Italian Brainrot combines the addictive gameplay of the classic 2048 puzzle with the viral humor of Italian Brainrot characters. Slide tiles to combine identical characters and work your way up to higher evolutions. Each merge reveals new character designs and unlocks the next tier in the Brainrot hierarchy.',
+      image: 'https://game.azgame.io/2048-italian-brainrot/25051605/logo_mini.png',
+      url: 'https://game.azgame.io/2048-italian-brainrot/',
+      features: ['2048 Mechanics', 'Brainrot Characters', 'High Score System', 'Smooth Animations', 'Progressive Unlocks'],
       difficulty: 'Medium',
-      developer: 'sagarrudani302',
+      developer: 'AZGame',
       releaseDate: '2025',
-      tags: ['Puzzle', 'Merge', 'Brainrot', 'Casual', 'Strategy'],
+      tags: ['Puzzle', '2048', 'Brainrot', 'Logic', 'Casual'],
+      instructions: [
+        'Use arrow keys or swipe to move tiles in any direction',
+        'When two tiles with the same character touch, they merge into one',
+        'Try to create the highest-tier Brainrot character possible',
+        'Plan your moves carefully to avoid getting stuck',
+        'Beat your high score and challenge your friends'
+      ]
+    },
+    'brainrot-head-soccer': {
+      id: 'brainrot-head-soccer',
+      title: 'Italian Brainrot Head Soccer',
+      description: 'Play head soccer with Italian Brainrot characters in this fun sports game',
+      longDescription: 'Italian Brainrot Head Soccer brings the beloved Italian Brainrot characters to the soccer field in this exciting head soccer game. Choose your favorite character and compete in fast-paced matches using only your head to score goals. With intuitive controls and addictive gameplay, this sports game combines the humor of Italian Brainrot with classic head soccer mechanics.',
+      image: 'https://www.gameflare.com/favicon.ico',
+      url: 'https://www.gameflare.com/embed/italian-brainrot-head-soccer/',
+      features: ['Head Soccer Gameplay', 'Brainrot Characters', 'Sports Action', 'Multiplayer Fun', 'Tournament Mode'],
+      difficulty: 'Medium',
+      developer: 'GameFlare',
+      releaseDate: '2025',
+      tags: ['Sports', 'Soccer', 'Brainrot', 'Head Soccer', 'Competitive'],
+      instructions: [
+        'Use arrow keys to move your character left and right',
+        'Press spacebar or up arrow to jump and hit the ball',
+        'Try to score goals by hitting the ball into opponent\'s goal',
+        'Defend your own goal while attacking the opponent\'s',
+        'First to score the target number of goals wins the match'
+      ]
+    },
+    'merge-brainrot': {
+      id: 'merge-brainrot',
+      title: 'Merge Brainrot',
+      description: 'Merge identical Italian Brainrot characters to create new evolved forms',
+      longDescription: 'Merge Brainrot is an addictive puzzle game where you combine identical Italian Brainrot characters to create new, more powerful forms. Strategic thinking and planning are required to maximize your score and progress through increasingly challenging levels. Experience the viral humor of Italian Brainrot while exercising your puzzle-solving skills.',
+      image: 'https://game.azgame.io/merge-brainrot/25060601/logo.png',
+      url: 'https://game.azgame.io/merge-brainrot/',
+      features: ['Merge Mechanics', 'Character Evolution', 'Strategic Gameplay', 'Score System', 'Progressive Difficulty'],
+      difficulty: 'Medium',
+      developer: 'AZGame',
+      releaseDate: '2025',
+      tags: ['Merge', 'Puzzle', 'Brainrot', 'Strategy', 'Evolution'],
       instructions: [
         'Drag and drop identical characters to merge them',
-        'Create higher-tier characters through strategic merging',
-        'Plan your moves to maximize score and space efficiency',
-        'Unlock new character types as you progress',
-        'Challenge yourself to reach the highest evolution levels'
+        'Create higher-tier characters through strategic combinations',
+        'Plan your moves to maximize space efficiency',
+        'Watch characters evolve into new forms when merged',
+        'Aim for high scores by creating longer merge chains'
+      ]
+    },
+    'brainrot-mini-challenge': {
+      id: 'brainrot-mini-challenge',
+      title: 'Brainrot Mini Challenge',
+      description: 'Take on fun mini-challenges with Italian Brainrot characters',
+      longDescription: 'Brainrot Mini Challenge is a collection of quick and entertaining mini-games featuring Italian Brainrot characters. Test your skills across various challenge types, from reflex-based games to puzzle-solving tasks. Each mini-challenge offers unique gameplay mechanics and scoring systems, providing endless entertainment and replayability.',
+      image: 'https://www.twoplayergames.org/favicon.ico',
+      url: 'https://www.twoplayergames.org/embed/brainrot-mini-challenge',
+      features: ['Mini Games', 'Challenge Mode', 'Quick Gameplay', 'Score Competition', 'Variety'],
+      difficulty: 'Medium',
+      developer: 'Two Player Games',
+      releaseDate: '2025',
+      tags: ['Mini Games', 'Challenge', 'Brainrot', 'Competition', 'Variety'],
+      instructions: [
+        'Choose from a variety of available mini-challenges',
+        'Read the specific instructions for each challenge',
+        'Use mouse or keyboard controls as indicated',
+        'Complete challenges as quickly and accurately as possible',
+        'Try to beat your high scores and compete with others'
+      ]
+    },
+    'italian-brainrot-quiz': {
+      id: 'italian-brainrot-quiz',
+      title: 'Italian Brainrot Quiz',
+      description: 'Test your knowledge about Italian Brainrot memes and characters',
+      longDescription: 'Italian Brainrot Quiz is the ultimate test of your knowledge about the viral Italian Brainrot phenomenon. Challenge yourself with questions about characters, memes, catchphrases, and the cultural impact of this internet sensation. From Bombardino Crocodilo to Cappuccino Assassino, see how well you know the Brainrot universe!',
+      image: 'https://www.gameflare.com/favicon.ico',
+      url: 'https://www.gameflare.com/embed/italian-brainrot-quiz/',
+      features: ['Quiz Questions', 'Brainrot Knowledge', 'Multiple Choice', 'Score Tracking', 'Educational Fun'],
+      difficulty: 'Easy',
+      developer: 'GameFlare',
+      releaseDate: '2025',
+      tags: ['Quiz', 'Knowledge', 'Brainrot', 'Educational', 'Trivia'],
+      instructions: [
+        'Read each question carefully about Italian Brainrot',
+        'Select the correct answer from multiple choice options',
+        'Learn interesting facts about Brainrot characters and memes',
+        'Track your score and see how well you know the topic',
+        'Challenge friends to beat your quiz score'
       ]
     }
   };
@@ -82,6 +162,7 @@ const GameDetail: React.FC = () => {
       maxWidth: 1000, 
       margin: '0 auto', 
       padding: '24px 16px',
+      paddingTop: '48px',
       background: '#fff'
     }}>
       {/* Back Button */}
@@ -241,25 +322,6 @@ const GameDetail: React.FC = () => {
               Play {game.title}
             </h2>
           </div>
-          <a 
-            href={game.url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{ 
-              background: 'rgba(255,255,255,0.2)',
-              color: '#fff',
-              padding: '8px 16px',
-              borderRadius: '20px',
-              textDecoration: 'none',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              transition: 'background 0.2s'
-            }}
-            onMouseOver={(e) => (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.3)'}
-            onMouseOut={(e) => (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.2)'}
-          >
-            Fullscreen ↗
-          </a>
         </div>
         <GameIframe 
           url={game.url}

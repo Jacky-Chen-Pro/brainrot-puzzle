@@ -13,39 +13,52 @@ const GameIframe: React.FC<GameIframeProps> = ({
   width = '100%', 
   height = '600px' 
 }) => {
-  const [useProxy, setUseProxy] = useState(true);
+  // Try direct first, then proxy if that fails
+  const [useProxy, setUseProxy] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleIframeError = () => {
-    if (useProxy) {
-      // Try direct URL if proxy fails
-      setUseProxy(false);
+    setIsLoading(false);
+    console.log('Iframe error occurred, retry count:', retryCount);
+    
+    if (!useProxy && retryCount === 0) {
+      // First try: direct failed, try proxy
+      console.log('Direct URL failed, trying proxy');
+      setUseProxy(true);
+      setIsLoading(true);
+      setRetryCount(1);
     } else {
-      // Show fallback if both proxy and direct fail
+      // Both failed, show fallback
+      console.log('Both direct and proxy failed, showing fallback');
       setShowFallback(true);
     }
   };
 
   const handleIframeLoad = () => {
-    // Check if iframe is actually blocked
+    setIsLoading(false);
     setTimeout(() => {
-      try {
-        const iframe = iframeRef.current;
-        if (iframe && iframe.contentWindow) {
-          // Try to access iframe content to detect if it's blocked
-          iframe.contentWindow.location.href;
-        }
-      } catch (error) {
-        // If we can't access it, it might be blocked
-        console.log('Iframe access blocked, trying alternatives');
-        if (useProxy) {
-          setUseProxy(false);
-        } else {
-          setShowFallback(true);
+      const iframe = iframeRef.current;
+      if (iframe) {
+        console.log('Iframe loaded successfully');
+        console.log('Iframe src:', iframe.src);
+        console.log('Using proxy:', useProxy);
+        
+        // Try to inspect what we got
+        try {
+          if (iframe.contentDocument) {
+            const body = iframe.contentDocument.body;
+            console.log('Iframe content body:', body ? body.innerHTML.substring(0, 200) + '...' : 'No body');
+          } else {
+            console.log('Cannot access iframe contentDocument (cross-origin)');
+          }
+        } catch (e) {
+          console.log('Cross-origin iframe - cannot inspect content');
         }
       }
-    }, 2000);
+    }, 1000);
   };
 
   if (showFallback) {
@@ -109,21 +122,48 @@ const GameIframe: React.FC<GameIframeProps> = ({
   const iframeSrc = useProxy ? `/api/proxy?url=${encodeURIComponent(url)}` : url;
 
   return (
-    <iframe
-      ref={iframeRef}
-      src={iframeSrc}
-      style={{
-        width,
-        height,
-        border: 'none',
-        display: 'block'
-      }}
-      title={title}
-      loading="lazy"
-      sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-popups allow-top-navigation"
-      onError={handleIframeError}
-      onLoad={handleIframeLoad}
-    />
+    <div style={{ position: 'relative', width, height }}>
+      {isLoading && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#f8faff',
+          zIndex: 1
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '2rem', marginBottom: '16px' }}>🎮</div>
+            <div style={{ color: '#1976d2', fontWeight: 600 }}>Loading game...</div>
+            <div style={{ color: '#666', fontSize: '0.9rem', marginTop: '8px' }}>
+              {useProxy ? 'Trying proxy server...' : 'Loading directly...'}
+              {retryCount > 0 && ' (retry)'}
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <iframe
+        ref={iframeRef}
+        src={iframeSrc}
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          display: 'block'
+        }}
+        title={title}
+        loading="eager"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-popups allow-top-navigation allow-popups-to-escape-sandbox allow-downloads allow-modals"
+        onError={handleIframeError}
+        onLoad={handleIframeLoad}
+        allow="fullscreen; gamepad; microphone"
+      />
+    </div>
   );
 };
 
